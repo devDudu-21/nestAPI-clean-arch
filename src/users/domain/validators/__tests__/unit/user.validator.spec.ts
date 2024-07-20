@@ -12,7 +12,6 @@ let props: UserProps;
 describe('UserValidator unit tests', () => {
   beforeEach(() => {
     sut = UserValidatorFactory.create();
-    props = UserDataBuilder({});
   });
 
   it('valid case for user validator class', () => {
