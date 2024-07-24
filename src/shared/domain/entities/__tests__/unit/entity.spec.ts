@@ -26,6 +26,14 @@ describe('Entity unit tests', () => {
     expect(entity._id).toEqual(id);
   });
 
+  it('should return the id', () => {
+    const props = { prop1: 'value1', prop2: 15 };
+    const id = '98fa40ea-9cf2-4e0d-a150-4cf12d379ba3';
+    const entity = new StubEntity(props, id);
+
+    expect(entity._id).toEqual(id);
+  });
+
   it('should convert a entity to a json', () => {
     const props = { prop1: 'value1', prop2: 15 };
     const id = '98fa40ea-9cf2-4e0d-a150-4cf12d379ba3';
