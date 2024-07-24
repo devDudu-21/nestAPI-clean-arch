@@ -41,6 +41,7 @@ export abstract class InMemoryRepository<E extends Entity>
   }
 
   protected async _getIndex(id: string): Promise<number> {
+    const _id = `${id}`;
     const entity = this.items.findIndex(item => item.id === id);
     if (!entity) {
       throw new NotFoundError('Entity not found');
