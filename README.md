@@ -1,73 +1,61 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# API Node.js using NestJS, Typescript and CleanArchiteture
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+![typescript](https://img.shields.io/badge/-TYPESCRIPT-02569B?logo=typescript&logoColor=white&style=for-the-badge)
+![node](https://img.shields.io/badge/-NODE.JS-5FA04E?logo=node.js&logoColor=white&style=for-the-badge)
+![nest](https://img.shields.io/badge/-NESTJS-E0234E?logo=nestjs&logoColor=white&style=for-the-badge)
+![jest](https://img.shields.io/badge/-jest-C21325?logo=jest&logoColor=white&style=for-the-badge)
+![prisma](https://img.shields.io/badge/-prisma-2D3748?logo=prisma&logoColor=white&style=for-the-badge)
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This practical project involves the creation of a Restful API using Node.js, NestJS, and TypeScript, oriented towards automated testing (unit, integration, and end-to-end tests), applying concepts of Domain Driven Design (DDD), Clean Architecture, Design Patterns, and SOLID principles.
+
+The project consists of a user module with: entity, data validation, repositories, use cases, CRUD functionality, pagination of data returned in lists, JWT authentication, and automated tests within an architecture based on DDD and Clean Architecture concepts.
 
 ## Installation
 
+Clone the repository into your development environment.
+
 ```bash
-$ npm install
+ git clone https://github.com/devDudu-21/nestAPI-clean-arch.git
 ```
 
-## Running the app
+Install the dependencies
+
+```bash
+ npm install
+```
+
+## Running
 
 ```bash
 # development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
 
 # production mode
 $ npm run start:prod
 ```
 
-## Test
+## Automated Testing
 
 ```bash
 # unit tests
 $ npm run test
 
-# e2e tests
+# integration tests - not implemented yet
+$ npm run test:int
+
+# e2e tests - not implemented yet
 $ npm run test:e2e
 
-# test coverage
+# test coverage - not implemented yet
 $ npm run test:cov
 ```
 
-## Support
+### Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+This project was developed from the advanced Node.js course of Aluízio Alves, with the support of reading the book "Clean Architecture: the Craftsman's Guide to Software Structure and Design (Robert C. Martin)".
 
-## Stay in touch
+### Social media
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+[Linkedin](https://www.linkedin.com/in/devdudu)
