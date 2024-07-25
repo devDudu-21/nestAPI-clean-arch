@@ -29,10 +29,10 @@ describe('BcryptjsHashProvider unit tests', () => {
   });
 
   it('should generate salt correctly', async () => {
-    const spy = jest.spyOn(BcryptjsHashProvider, 'genSalt');
+    const spyGenSalt = jest.spyOn(BcryptjsHashProvider, 'genSalt');
     const salt = await BcryptjsHashProvider.genSalt();
     expect(salt).toBeDefined();
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
+    expect(spyGenSalt).toHaveBeenCalled();
+    spyGenSalt.mockRestore();
   });
 });
