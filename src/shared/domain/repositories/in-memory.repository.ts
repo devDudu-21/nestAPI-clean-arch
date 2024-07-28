@@ -21,7 +21,7 @@ export abstract class InMemoryRepository<E extends Entity>
 
   async update(entity: E): Promise<void> {
     await this._get(entity.id);
-    const index = this.items.findIndex(item => item.id === entity.id);
+    const index = await this._getIndex(entity.id);
     this.items[index] = entity;
   }
 
