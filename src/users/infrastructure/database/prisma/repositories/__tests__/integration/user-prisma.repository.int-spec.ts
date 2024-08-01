@@ -6,6 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
+import { UserRepository } from '@/users/domain/repositories/user.repository';
 
 describe('UserPrismaRepository integration tests', () => {
   const prismaService = new PrismaClient();
@@ -60,5 +61,35 @@ describe('UserPrismaRepository integration tests', () => {
     const entities = await sut.findAll();
     expect(entities).toHaveLength(1);
     entities.map(item => expect(item.toJSON()).toStrictEqual(entity.toJSON()));
+  });
+
+  describe('search method tests', () => {
+    it('should apply only pagination when the other params are null', async () => {
+      const createdAt = new Date();
+      const entities: UserEntity[] = [];
+      const arrange = Array(16).fill(UserDataBuilder({}));
+      arrange.forEach((element, index) => {
+        entities.push(
+          new UserEntity({
+            ...element,
+            name: `User ${index}`,
+            email: `test${index}@mail.com`,
+            createdAt: new Date(createdAt.getTime() + index),
+          }),
+        );
+      });
+
+      await prismaService.user.createMany({
+        data: entities.map(entity => entity.toJSON()),
+      });
+
+      const searchOutput = await sut.search(new UserRepository.SearchParams());
+
+      expect(searchOutput).toBeInstanceOf(UserRepository.SearchResult);
+      expect(searchOutput.total).toBe(16);
+      searchOutput.items.forEach(item => {
+        expect(item).toBeInstanceOf(UserEntity);
+      });
+    });
   });
 });
