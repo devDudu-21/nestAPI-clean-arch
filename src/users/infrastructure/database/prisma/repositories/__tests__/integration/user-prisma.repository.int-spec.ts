@@ -83,6 +83,7 @@ describe('UserPrismaRepository integration tests', () => {
       });
 
       const searchOutput = await sut.search(new UserRepository.SearchParams());
+      const items = searchOutput.items;
 
       expect(searchOutput).toBeInstanceOf(UserRepository.SearchResult);
       expect(searchOutput.total).toBe(16);
@@ -90,6 +91,9 @@ describe('UserPrismaRepository integration tests', () => {
 
       searchOutput.items.forEach(item => {
         expect(item).toBeInstanceOf(UserEntity);
+      });
+      items.reverse().forEach((item, index) => {
+        expect(`test${index + 1}@mail.com`).toBe(item.email);
       });
     });
   });
