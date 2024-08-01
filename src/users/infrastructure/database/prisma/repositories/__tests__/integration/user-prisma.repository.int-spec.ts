@@ -72,7 +72,7 @@ describe('UserPrismaRepository integration tests', () => {
 
   it('should update a entity by id', async () => {
     const entity = new UserEntity(UserDataBuilder({}));
-    const newUser = await prismaService.user.create({
+    await prismaService.user.create({
       data: entity.toJSON(),
     });
     entity.update('new name');
@@ -84,6 +84,29 @@ describe('UserPrismaRepository integration tests', () => {
       },
     });
     expect(output.name).toBe('new name');
+  });
+
+  it('should throws error on delete when entity not found', async () => {
+    const entity = new UserEntity(UserDataBuilder({}));
+    expect(() => sut.delete(entity._id)).rejects.toThrow(
+      new NotFoundError(`UserModel not found using ID ${entity._id}`),
+    );
+  });
+
+  it('should delete a entity by id', async () => {
+    const entity = new UserEntity(UserDataBuilder({}));
+    await prismaService.user.create({
+      data: entity.toJSON(),
+    });
+
+    await sut.delete(entity._id);
+
+    const output = await prismaService.user.findUnique({
+      where: {
+        id: entity._id,
+      },
+    });
+    expect(output).toBeNull();
   });
 
   describe('search method tests', () => {
