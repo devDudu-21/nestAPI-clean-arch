@@ -7,7 +7,6 @@ import { TestingModule, Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
 
 import { SignupUseCase } from '../../signup.usecase';
-import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
 
 describe('UserPrismaRepository integration tests', () => {
