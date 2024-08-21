@@ -10,7 +10,7 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 
-describe('UserPrismaRepository integration tests', () => {
+describe('DeleteUserUseCase integration tests', () => {
   const prismaService = new PrismaClient();
   let sut: DeleteUserUseCase.UseCase;
   let repository: UserPrismaRepository;
