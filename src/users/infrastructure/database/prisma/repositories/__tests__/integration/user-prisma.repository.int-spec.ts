@@ -159,7 +159,7 @@ describe('UserPrismaRepository integration tests', () => {
       });
 
       await prismaService.user.createMany({
-        data: entities.map(entity => entity.toJSON()),
+        data: entities.map(item => item.toJSON()),
       });
 
       const searchOutput = await sut.search(new UserRepository.SearchParams());
