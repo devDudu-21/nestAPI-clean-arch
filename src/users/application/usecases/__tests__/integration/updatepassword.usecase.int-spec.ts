@@ -36,7 +36,7 @@ describe('UpdatePasswordUseCase integration tests', () => {
     await module.close();
   });
 
-  it('should throws error when a entity found', async () => {
+  it('should throws error when a entity not found', async () => {
     const entity = new UserEntity(UserDataBuilder({}));
 
     await expect(() =>
