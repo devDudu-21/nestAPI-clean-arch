@@ -2,14 +2,12 @@ import { HashProvider } from '@/shared/application/providers/hash-provider';
 import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
 import { setupPrismaTests } from '@/shared/infrastructure/database/prisma/testing/setup-prisma-tests';
 import { UserPrismaRepository } from '@/users/infrastructure/database/prisma/repositories/user-prisma.repository';
-
 import { TestingModule, Test } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
-
 import { SignupUseCase } from '../../signup.usecase';
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
 
-describe('UserPrismaRepository integration tests', () => {
+describe('SingupUseCase integration tests', () => {
   const prismaService = new PrismaClient();
   let sut: SignupUseCase.UseCase;
   let repository: UserPrismaRepository;
