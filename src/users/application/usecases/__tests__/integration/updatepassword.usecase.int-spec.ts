@@ -11,7 +11,7 @@ import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builde
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
 
-describe('UserPrismaRepository integration tests', () => {
+describe('UpdatePasswordUseCase integration tests', () => {
   const prismaService = new PrismaClient();
   let sut: UpdatePasswordUseCase.UseCase;
   let repository: UserPrismaRepository;
