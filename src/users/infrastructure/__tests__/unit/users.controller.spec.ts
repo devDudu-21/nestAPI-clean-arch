@@ -11,6 +11,7 @@ import { UpdatePasswordUseCase } from '@/users/application/usecases/updatepasswo
 import { GetUserUseCase } from '@/users/application/usecases/getuser.usecase';
 import { ListUsersUseCase } from '@/users/application/usecases/listusers.usecase';
 import { UserPresenter } from '../../presenters/user.presenter';
+import { UserCollectionPresenter } from '../../presenters/user-collection.presenter';
 
 describe('UsersController unit tests', () => {
   let sut: UsersController;
@@ -150,8 +151,9 @@ describe('UsersController unit tests', () => {
       perPage: 1,
     };
     sut['listUsersUseCase'] = mockListUsersUseCase as any;
-    const result = await sut.search(searchParams);
-    expect(output).toMatchObject(result);
+    const presenter = await sut.search(searchParams);
+    expect(presenter).toBeInstanceOf(UserCollectionPresenter);
+    expect(presenter).toStrictEqual(new UserCollectionPresenter(output));
     expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(searchParams);
   });
 });
