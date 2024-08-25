@@ -26,6 +26,7 @@ import { ListUsersDto } from './dto/list-users.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UserOutput } from '../application/dto/user-output';
 import { UserPresenter } from './presenters/user.presenter';
+import { UserCollectionPresenter } from './presenters/user-collection.presenter';
 
 @Controller('users')
 export class UsersController {
@@ -54,6 +55,10 @@ export class UsersController {
     return new UserPresenter(output);
   }
 
+  static listUsersToResponse(output: ListUsersUseCase.Output) {
+    return new UserCollectionPresenter(output);
+  }
+
   @Post()
   async create(@Body() singupDto: SignupDto) {
     const output = await this.signupUseCase.execute(singupDto);
@@ -69,7 +74,8 @@ export class UsersController {
 
   @Get()
   async search(@Query() searchParams: ListUsersDto) {
-    return this.listUsersUseCase.execute(searchParams);
+    const output = await this.listUsersUseCase.execute(searchParams);
+    return UsersController.listUsersToResponse(output);
   }
 
   @Get(':id')
