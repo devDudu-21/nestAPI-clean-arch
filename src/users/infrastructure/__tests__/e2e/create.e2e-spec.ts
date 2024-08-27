@@ -11,6 +11,8 @@ import request from 'supertest';
 import { UsersController } from '../../users.controller';
 import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
+import { UserEntity } from '@/users/domain/entities/user.entity';
+import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 
 describe('Create method end-to-end tests', () => {
   let app: INestApplication;
@@ -114,15 +116,25 @@ describe('Create method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code whit invalid field provider', async () => {
+    it('should return an error with 442 code with invalid field provider', async () => {
       const res = await request(app.getHttpServer())
         .post('/users')
         .send(Object.assign(signupDto, { xpto: 'xpto' }))
         .expect(422);
       expect(res.body.message).toEqual(['property xpto should not exist']);
       expect(res.body.error).toBe('Unprocessable Entity');
+    });
 
-      console.log(res.body);
+    it('should return an error with 409 code when the email is duplicated', async () => {
+      const entity = new UserEntity(UserDataBuilder({ ...signupDto }));
+      await repository.insert(entity);
+
+      const res = await request(app.getHttpServer())
+        .post('/users')
+        .send(signupDto)
+        .expect(409);
+      expect(res.body.error).toBe('Conflict');
+      expect(res.body.message).toBe('Email adress already used');
     });
   });
 });
