@@ -42,10 +42,10 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
-# integration tests - not implemented yet
+# integration tests 
 $ npm run test:int
 
-# e2e tests - not implemented yet
+# e2e tests
 $ npm run test:e2e
 
 # test coverage - not implemented yet
