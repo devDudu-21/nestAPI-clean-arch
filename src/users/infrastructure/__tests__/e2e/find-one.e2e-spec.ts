@@ -42,7 +42,7 @@ describe('UsersController findOne method end-to-end tests', () => {
   });
 
   describe('GET /users/:id', () => {
-    it('should create an user', async () => {
+    it('should find a user', async () => {
       const res = await request(app.getHttpServer())
         .get(`/users/${entity._id}`)
         .expect(200);
