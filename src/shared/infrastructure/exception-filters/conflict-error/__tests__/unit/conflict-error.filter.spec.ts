@@ -1,8 +1,8 @@
 import { ArgumentsHost } from '@nestjs/common';
-import { ConflictErrorFilter } from './conflict-error.filter';
+import { ConflictErrorFilter } from '../../conflict-error.filter';
 import { ConflictError } from '@/shared/domain/errors/conflict-error';
 
-describe('ConflictErrorFilter', () => {
+describe('ConflictErrorFilter unit tests', () => {
   it('should be defined', () => {
     const filter = new ConflictErrorFilter();
     expect(filter).toBeDefined();
