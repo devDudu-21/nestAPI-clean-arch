@@ -29,6 +29,10 @@ Install the dependencies
 ## Running
 
 ```bash
+# migration
+npm run migrate
+```
+``` bash
 # development
 $ npm run start:dev
 
