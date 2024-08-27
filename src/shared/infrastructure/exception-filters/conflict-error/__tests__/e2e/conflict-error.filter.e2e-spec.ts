@@ -25,10 +25,6 @@ describe('ConflictErrorFilter end-to-end tests', () => {
     await app.init();
   });
 
-  afterAll(async () => {
-    await module.close();
-  });
-
   it('should catch ConflictError', async () => {
     return request(app.getHttpServer()).get('/stub').expect(409).expect({
       statusCode: 409,
