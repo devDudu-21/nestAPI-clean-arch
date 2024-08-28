@@ -7,7 +7,7 @@ import request from 'supertest';
 @Controller('stub')
 class StubController {
   @Patch() index() {
-    throw new InvalidPasswordError('Password does not match');
+    throw new InvalidPasswordError('Old password does not match');
   }
 }
 
