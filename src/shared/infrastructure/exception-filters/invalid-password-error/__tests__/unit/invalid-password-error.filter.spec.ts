@@ -1,6 +1,6 @@
 import { ArgumentsHost } from '@nestjs/common';
-import { InvalidPasswordErrorFilter } from './invalid-password-error.filter';
 import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
+import { InvalidPasswordErrorFilter } from '../../invalid-password-error.filter';
 
 describe('InvalidPasswordErrorFilter unit tests', () => {
   it('should be defined', () => {
