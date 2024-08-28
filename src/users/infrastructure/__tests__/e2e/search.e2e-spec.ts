@@ -39,7 +39,7 @@ describe('UsersController search method end-to-end tests', () => {
     await prismaService.user.deleteMany();
   });
 
-  describe('GET /users/', () => {
+  describe('GET /users', () => {
     it('should return the users ordered by createdAt', async () => {
       const createdAt = new Date();
       const entities: UserEntity[] = [];
