@@ -59,7 +59,7 @@ describe('UsersController Update method end-to-end tests', () => {
       expect(res.body.data).toStrictEqual(serialized);
     });
 
-    it('should return an error with 442 code when the request body is invalid', async () => {
+    it('should return an error with 422 code when the request body is invalid', async () => {
       const res = await request(app.getHttpServer())
         .put(`/users/${entity._id}`)
         .send({})
@@ -72,7 +72,7 @@ describe('UsersController Update method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code when the name field is invalid', async () => {
+    it('should return an error with 422 code when the name field is invalid', async () => {
       delete updateUserDto.name;
       const res = await request(app.getHttpServer())
         .put(`/users/${entity._id}`)
@@ -85,7 +85,7 @@ describe('UsersController Update method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code with invalid field provider', async () => {
+    it('should return an error with 422 code with invalid field provider', async () => {
       const res = await request(app.getHttpServer())
         .put(`/users/${entity._id}`)
         .send(Object.assign(updateUserDto, { xpto: 'xpto' }))

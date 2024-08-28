@@ -59,7 +59,7 @@ describe('UsersController Create method end-to-end tests', () => {
       expect(res.body.data).toStrictEqual(serialized);
     });
 
-    it('should return an error with 442 code when the request body is invalid', async () => {
+    it('should return an error with 422 code when the request body is invalid', async () => {
       const res = await request(app.getHttpServer())
         .post('/users')
         .send({})
@@ -76,7 +76,7 @@ describe('UsersController Create method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code when the name field is invalid', async () => {
+    it('should return an error with 422 code when the name field is invalid', async () => {
       delete signupDto.name;
       const res = await request(app.getHttpServer())
         .post('/users')
@@ -89,7 +89,7 @@ describe('UsersController Create method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code when the email field is invalid', async () => {
+    it('should return an error with 422 code when the email field is invalid', async () => {
       delete signupDto.email;
       const res = await request(app.getHttpServer())
         .post('/users')
@@ -103,7 +103,7 @@ describe('UsersController Create method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code when the password field is invalid', async () => {
+    it('should return an error with 422 code when the password field is invalid', async () => {
       delete signupDto.password;
       const res = await request(app.getHttpServer())
         .post('/users')
@@ -116,7 +116,7 @@ describe('UsersController Create method end-to-end tests', () => {
       ]);
     });
 
-    it('should return an error with 442 code with invalid field provider', async () => {
+    it('should return an error with 422 code with invalid field provider', async () => {
       const res = await request(app.getHttpServer())
         .post('/users')
         .send(Object.assign(signupDto, { xpto: 'xpto' }))
