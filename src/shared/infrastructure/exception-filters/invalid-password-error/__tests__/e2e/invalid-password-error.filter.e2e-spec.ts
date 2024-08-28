@@ -32,7 +32,7 @@ describe('InvalidPasswordErrorFilter end-to-end tests', () => {
     return request(app.getHttpServer()).patch('/stub').expect(422).expect({
       statusCode: 422,
       error: 'Unprocessable Entity',
-      message: 'Password does not match',
+      message: 'Old password does not match',
     });
   });
 });
