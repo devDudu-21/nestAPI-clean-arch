@@ -25,6 +25,10 @@ describe('ConflictErrorFilter end-to-end tests', () => {
     await app.init();
   });
 
+  it('should be defined', () => {
+    expect(new ConflictErrorFilter()).toBeDefined();
+  });
+
   it('should catch ConflictError', async () => {
     return request(app.getHttpServer()).get('/stub').expect(409).expect({
       statusCode: 409,

@@ -12,7 +12,7 @@ class StubController {
   }
 }
 
-describe('ConflictErrorFilter end-to-end tests', () => {
+describe('NotFoundErrorFilter end-to-end tests', () => {
   let app: INestApplication;
   let module: TestingModule;
 
@@ -23,6 +23,10 @@ describe('ConflictErrorFilter end-to-end tests', () => {
     app = module.createNestApplication();
     app.useGlobalFilters(new NotfoundErrorFilter());
     await app.init();
+  });
+
+  it('should be defined', () => {
+    expect(new NotfoundErrorFilter()).toBeDefined();
   });
 
   it('should catch ConflictError', async () => {

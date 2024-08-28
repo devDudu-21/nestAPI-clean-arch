@@ -24,6 +24,10 @@ describe('InvalidPasswordErrorFilter end-to-end tests', () => {
     await app.init();
   });
 
+  it('should be defined', () => {
+    expect(new InvalidPasswordErrorFilter()).toBeDefined();
+  });
+
   it('should catch InvalidPasswordError', async () => {
     return request(app.getHttpServer()).patch('/stub').expect(422).expect({
       statusCode: 422,
