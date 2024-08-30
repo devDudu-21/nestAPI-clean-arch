@@ -1,15 +1,15 @@
 import { ArgumentsHost } from '@nestjs/common';
-import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
-import { InvalidPasswordErrorFilter } from '../../invalid-password-error.filter';
+import { UnauthorizedErrorFilter } from '../../unauthorized-error.filter';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 
-describe('InvalidPasswordErrorFilter unit tests', () => {
+describe('UnauthorizedErrorFilter unit tests', () => {
   it('should be defined', () => {
-    const filter = new InvalidPasswordErrorFilter();
+    const filter = new UnauthorizedErrorFilter();
     expect(filter).toBeDefined();
   });
 
   it('should catch InvalidPasswordError and send the correct response', () => {
-    const filter = new InvalidPasswordErrorFilter();
+    const filter = new UnauthorizedErrorFilter();
     const mockResponse = {
       status: jest.fn().mockReturnThis(),
       send: jest.fn(),
@@ -19,20 +19,20 @@ describe('InvalidPasswordErrorFilter unit tests', () => {
         getResponse: () => mockResponse,
       }),
     } as unknown as ArgumentsHost;
-    const exception = new InvalidPasswordError('Conflict occurred');
+    const exception = new UnauthorizedError('Unauthorized');
 
     filter.catch(exception, mockHost);
 
-    expect(mockResponse.status).toHaveBeenCalledWith(422);
+    expect(mockResponse.status).toHaveBeenCalledWith(401);
     expect(mockResponse.send).toHaveBeenCalledWith({
-      statusCode: 422,
-      error: 'Unprocessable Entity',
+      statusCode: 401,
+      error: 'Unauthorized',
       message: exception.message,
     });
   });
 
   it('should handle different exception messages', () => {
-    const filter = new InvalidPasswordErrorFilter();
+    const filter = new UnauthorizedErrorFilter();
     const mockResponse = {
       status: jest.fn().mockReturnThis(),
       send: jest.fn(),
@@ -42,19 +42,19 @@ describe('InvalidPasswordErrorFilter unit tests', () => {
         getResponse: () => mockResponse,
       }),
     } as unknown as ArgumentsHost;
-    const exception = new InvalidPasswordError('Password does not match');
+    const exception = new UnauthorizedError('Password does not match');
 
     filter.catch(exception, mockHost);
 
     expect(mockResponse.send).toHaveBeenCalledWith({
-      statusCode: 422,
-      error: 'Unprocessable Entity',
+      statusCode: 401,
+      error: 'Unauthorized',
       message: 'Password does not match',
     });
   });
 
-  it('should always return HTTP status 422', () => {
-    const filter = new InvalidPasswordErrorFilter();
+  it('should always return HTTP status 401', () => {
+    const filter = new UnauthorizedErrorFilter();
     const mockResponse = {
       status: jest.fn().mockReturnThis(),
       send: jest.fn(),
@@ -64,10 +64,10 @@ describe('InvalidPasswordErrorFilter unit tests', () => {
         getResponse: () => mockResponse,
       }),
     } as unknown as ArgumentsHost;
-    const exception = new InvalidPasswordError('Any conflict error');
+    const exception = new UnauthorizedError('Unauthorized');
 
     filter.catch(exception, mockHost);
 
-    expect(mockResponse.status).toHaveBeenCalledWith(422);
+    expect(mockResponse.status).toHaveBeenCalledWith(401);
   });
 });

@@ -1,17 +1,17 @@
-import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 import { Controller, INestApplication, Patch } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { InvalidPasswordErrorFilter } from '../../invalid-password-error.filter';
 import request from 'supertest';
+import { UnauthorizedErrorFilter } from '../../unauthorized-error.filter';
 
 @Controller('stub')
 class StubController {
   @Patch() index() {
-    throw new InvalidPasswordError('Old password does not match');
+    throw new UnauthorizedError('Old password does not match');
   }
 }
 
-describe('InvalidPasswordErrorFilter end-to-end tests', () => {
+describe('UnauUnauthorizedErrorFilter end-to-end tests', () => {
   let app: INestApplication;
   let module: TestingModule;
 
@@ -20,18 +20,18 @@ describe('InvalidPasswordErrorFilter end-to-end tests', () => {
       controllers: [StubController],
     }).compile();
     app = module.createNestApplication();
-    app.useGlobalFilters(new InvalidPasswordErrorFilter());
+    app.useGlobalFilters(new UnauthorizedErrorFilter());
     await app.init();
   });
 
   it('should be defined', () => {
-    expect(new InvalidPasswordErrorFilter()).toBeDefined();
+    expect(new UnauthorizedErrorFilter()).toBeDefined();
   });
 
   it('should catch InvalidPasswordError', async () => {
-    return request(app.getHttpServer()).patch('/stub').expect(422).expect({
-      statusCode: 422,
-      error: 'Unprocessable Entity',
+    return request(app.getHttpServer()).patch('/stub').expect(401).expect({
+      statusCode: 401,
+      error: 'Unauthorized',
       message: 'Old password does not match',
     });
   });
