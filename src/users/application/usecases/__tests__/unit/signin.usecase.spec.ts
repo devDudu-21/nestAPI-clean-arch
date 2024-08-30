@@ -66,7 +66,7 @@ describe('SigninUseCase unit tests', () => {
 
     const props = { email: 'a@a.com', password: 'fake' };
     await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
-      InvalidCredentialsError,
+      UnauthorizedError,
     );
   });
 });

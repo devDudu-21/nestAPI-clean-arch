@@ -123,5 +123,23 @@ describe('UsersController Login method end-to-end tests', () => {
       expect(res.body.error).toBe('Unauthorized');
       expect(res.body.message).toBe('Invalid credentials');
     });
+
+    it('should return an error with 401 code when the password is incorrect', async () => {
+      const passwordHash = await hashProvider.generateHash(signinDto.password);
+      const entity = new UserEntity({
+        ...UserDataBuilder({}),
+        email: signinDto.email,
+        password: passwordHash,
+      });
+      await repository.insert(entity);
+
+      const res = await request(app.getHttpServer())
+        .post('/users/login')
+        .send({ ...signinDto, password: 'wrongPassword' })
+        .expect(401);
+      expect(entity.password).not.toEqual('wrongPassword');
+      expect(res.body.error).toBe('Unauthorized');
+      expect(res.body.message).toBe('Invalid credentials');
+    });
   });
 });

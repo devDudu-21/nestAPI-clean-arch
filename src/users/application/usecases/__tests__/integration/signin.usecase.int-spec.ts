@@ -64,7 +64,7 @@ describe('SigninUseCase integration tests', () => {
         email: 'a@a.com',
         password: 'wrong password',
       }),
-    ).rejects.toBeInstanceOf(InvalidCredentialsError);
+    ).rejects.toBeInstanceOf(UnauthorizedError);
   });
 
   it('should throws error when email not provided', async () => {
