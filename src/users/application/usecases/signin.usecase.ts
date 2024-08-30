@@ -46,7 +46,7 @@ export namespace SigninUseCase {
       );
 
       if (!checkPassword) {
-        throw new InvalidCredentialsError('Invalid credentials');
+        throw new UnauthorizedError('Invalid credentials');
       }
 
       return UserOutputMapper.toOutput(entity);
