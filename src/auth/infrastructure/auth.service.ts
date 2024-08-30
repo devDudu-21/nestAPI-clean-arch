@@ -13,7 +13,7 @@ export class AuthService {
     private readonly configService: EnvConfigService,
   ) {}
 
-  async generateJwtToken(userId: string): Promise<GeneratedJwtProps> {
+  async generateJwt(userId: string): Promise<GeneratedJwtProps> {
     const accessToken = await this.jwtService.signAsync({ id: userId }, {});
     return { accessToken };
   }
