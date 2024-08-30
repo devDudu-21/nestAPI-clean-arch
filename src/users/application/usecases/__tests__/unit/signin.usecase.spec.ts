@@ -7,6 +7,7 @@ import { UserEntity } from '@/users/domain/entities/user.entity';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 
 describe('SigninUseCase unit tests', () => {
   let sut: SigninUseCase.UseCase;
@@ -52,7 +53,7 @@ describe('SigninUseCase unit tests', () => {
   it('should not be able to authenticate with wrong email', async () => {
     const props = { email: 'a@a.com', password: '123456' };
     await expect(() => sut.execute(props)).rejects.toBeInstanceOf(
-      NotFoundError,
+      UnauthorizedError,
     );
   });
 

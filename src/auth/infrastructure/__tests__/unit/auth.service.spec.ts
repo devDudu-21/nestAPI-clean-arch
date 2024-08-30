@@ -35,14 +35,14 @@ describe('AuthService unit tests', () => {
   });
 
   it('should return a jwt', async () => {
-    const result = await sut.generateJwtToken('fakeId');
+    const result = await sut.generateJwt('fakeId');
 
     expect(Object.keys(result)).toEqual(['accessToken']);
     expect(typeof result.accessToken).toEqual('string');
   });
 
   it('should verify a jwt', async () => {
-    const result = await sut.generateJwtToken('fakeId');
+    const result = await sut.generateJwt('fakeId');
 
     const validToken = await sut.verifyJwt(result.accessToken);
     expect(validToken).not.toBeNull();

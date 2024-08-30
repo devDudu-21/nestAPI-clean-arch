@@ -5,7 +5,7 @@ import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builde
 import { UpdatePasswordUseCase } from '../../updatepassword.usecase';
 import { HashProvider } from '@/shared/application/providers/hash-provider';
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
-import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 
 describe('UpdatePasswordUseCase', () => {
   let sut: UpdatePasswordUseCase.UseCase;
@@ -38,7 +38,7 @@ describe('UpdatePasswordUseCase', () => {
         oldPassword: '',
       }),
     ).rejects.toThrow(
-      new InvalidPasswordError('Old password and new password is required'),
+      new UnauthorizedError('Old password and new password is required'),
     );
   });
 
@@ -52,7 +52,7 @@ describe('UpdatePasswordUseCase', () => {
         oldPassword: '1234',
       }),
     ).rejects.toThrow(
-      new InvalidPasswordError('Old password and new password is required'),
+      new UnauthorizedError('Old password and new password is required'),
     );
   });
 
@@ -66,7 +66,7 @@ describe('UpdatePasswordUseCase', () => {
         password: '4567',
         oldPassword: '123456',
       }),
-    ).rejects.toThrow(new InvalidPasswordError('Old password does not match'));
+    ).rejects.toThrow(new UnauthorizedError('Old password does not match'));
   });
 
   it('should update a password', async () => {

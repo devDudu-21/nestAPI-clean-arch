@@ -139,10 +139,10 @@ describe('UsersController updatePassword method end-to-end tests', () => {
       const res = await request(app.getHttpServer())
         .patch(`/users/${entity._id}`)
         .send(updatePasswordDto)
-        .expect(422);
+        .expect(401);
       expect(res.body).toStrictEqual({
-        statusCode: 422,
-        error: 'Unprocessable Entity',
+        statusCode: 401,
+        error: 'Unauthorized',
         message: 'Old password does not match',
       });
     });

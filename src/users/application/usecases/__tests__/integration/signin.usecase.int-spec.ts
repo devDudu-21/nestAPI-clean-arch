@@ -7,10 +7,10 @@ import { PrismaClient } from '@prisma/client';
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
-import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { SigninUseCase } from '../../signin.usecase';
 import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 
 describe('SigninUseCase integration tests', () => {
   const prismaService = new PrismaClient();
@@ -44,7 +44,7 @@ describe('SigninUseCase integration tests', () => {
         email: entity.email,
         password: 'fake password',
       }),
-    ).rejects.toBeInstanceOf(NotFoundError);
+    ).rejects.toBeInstanceOf(UnauthorizedError);
   });
 
   it('should not be able to authenticate with invalid password', async () => {

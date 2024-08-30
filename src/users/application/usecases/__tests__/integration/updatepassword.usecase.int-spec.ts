@@ -9,7 +9,7 @@ import { UpdatePasswordUseCase } from '../../updatepassword.usecase';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
-import { InvalidPasswordError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 
 describe('UpdatePasswordUseCase integration tests', () => {
   const prismaService = new PrismaClient();
@@ -63,7 +63,7 @@ describe('UpdatePasswordUseCase integration tests', () => {
         password: '',
       }),
     ).rejects.toThrow(
-      new InvalidPasswordError('Old password and new password is required'),
+      new UnauthorizedError('Old password and new password is required'),
     );
   });
 
@@ -80,7 +80,7 @@ describe('UpdatePasswordUseCase integration tests', () => {
         password: 'fake new password',
       }),
     ).rejects.toThrow(
-      new InvalidPasswordError('Old password and new password is required'),
+      new UnauthorizedError('Old password and new password is required'),
     );
   });
 
