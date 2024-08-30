@@ -46,7 +46,7 @@ describe('UsersController Create method end-to-end tests', () => {
   });
 
   describe('POST /users', () => {
-    it('should create an user', async () => {
+    it('should create a user', async () => {
       const res = await request(app.getHttpServer())
         .post('/users')
         .send(signupDto)
