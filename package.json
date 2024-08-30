@@ -15,10 +15,11 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "npx dotenv-cli -e .env.test -- jest",
     "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts",
+    "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.e2e.config.ts",
+    "test:all": "npx dotenv-cli -e .env.test -- jest && npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts && npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.e2e.config.ts",
     "test:watch": "npx dotenv-cli -e .env.test -- jest --watch",
     "test:cov": "npx dotenv-cli -e .env.test -- jest --coverage",
     "test:debug": "npx dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.e2e.config.ts",
     "migrate": "npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema ./src/shared/infrastructure/database/prisma/schema.prisma"
   },
   "dependencies": {
