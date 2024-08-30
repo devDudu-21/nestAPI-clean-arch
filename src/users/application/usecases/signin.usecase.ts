@@ -1,9 +1,12 @@
 import { HashProvider } from '@/shared/application/providers/hash-provider';
 import { UserRepository } from '@/users/domain/repositories/user.repository';
-import { BadRequestError } from '../../../shared/application/errors/bad-request-error';
+import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { UserOutput, UserOutputMapper } from '../dto/user-output';
 import { UseCase as DefaultUseCase } from '@/shared/application/usecases/use-case';
 import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
+import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UserEntity } from '@/users/domain/entities/user.entity';
+import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 
 export namespace SigninUseCase {
   export type Input = {
@@ -18,6 +21,7 @@ export namespace SigninUseCase {
       private readonly userRepository: UserRepository.Repository,
       private hashProvider: HashProvider,
     ) {}
+
     async execute(input: Input): Promise<Output> {
       const { email, password } = input;
 
@@ -25,7 +29,16 @@ export namespace SigninUseCase {
         throw new BadRequestError('Missing required fields');
       }
 
-      const entity = await this.userRepository.findByEmail(email);
+      let entity: UserEntity;
+
+      try {
+        entity = await this.userRepository.findByEmail(email);
+      } catch (error) {
+        if (error instanceof NotFoundError) {
+          throw new UnauthorizedError('Invalid credentials');
+        }
+        throw error;
+      }
 
       const checkPassword = await this.hashProvider.compareHash(
         password,
