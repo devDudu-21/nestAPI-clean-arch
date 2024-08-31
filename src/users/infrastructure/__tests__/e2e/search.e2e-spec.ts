@@ -12,13 +12,18 @@ import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
+import { HashProvider } from '@/shared/application/providers/hash-provider';
+import { BcryptjsHashProvider } from '../../providers/hash-provider/bcryptjs-hash.provider';
 
 describe('UsersController search method end-to-end tests', () => {
   let app: INestApplication;
   let module: TestingModule;
   let repository: UserRepository.Repository;
-  const prismaService = new PrismaClient();
   let entity: UserEntity;
+  const prismaService = new PrismaClient();
+  let hashProvider: HashProvider;
+  let hashPassword: string;
+  let accessToken: string;
 
   beforeAll(async () => {
     setupPrismaTests();
@@ -33,10 +38,22 @@ describe('UsersController search method end-to-end tests', () => {
     applyGlobalConfig(app);
     await app.init();
     repository = module.get<UserRepository.Repository>('UserRepository');
+    hashProvider = new BcryptjsHashProvider();
+    hashPassword = await hashProvider.generateHash('fake_password');
   });
 
   beforeEach(async () => {
     await prismaService.user.deleteMany();
+    entity = new UserEntity(
+      UserDataBuilder({ email: 'a@a.com', password: hashPassword }),
+    );
+    await repository.insert(entity);
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/users/login')
+      .send({ email: 'a@a.com', password: 'fake_password' })
+      .expect(200);
+    accessToken = loginResponse.body.accessToken;
   });
 
   describe('GET /users', () => {
@@ -53,6 +70,7 @@ describe('UsersController search method end-to-end tests', () => {
           }),
         ),
       );
+      await prismaService.user.deleteMany();
       await prismaService.user.createMany({
         data: entities.map(entity => entity.toJSON()),
       });
@@ -60,6 +78,7 @@ describe('UsersController search method end-to-end tests', () => {
       const queryParams = new URLSearchParams(searchParams as any).toString();
       const res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
 
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
@@ -78,7 +97,29 @@ describe('UsersController search method end-to-end tests', () => {
       });
     });
 
-    it('should return the users ordered by createdAt', async () => {
+    it('should throw unauthorized error with code 401 when the token is not provided', async () => {
+      const res = await request(app.getHttpServer()).get(`/users`).expect(401);
+
+      expect(res.body).toStrictEqual({
+        statusCode: 401,
+        error: 'Unauthorized',
+        message: 'Token not found',
+      });
+    });
+
+    it('should throw unauthorized error with code 401 when the token is not valid', async () => {
+      const res = await request(app.getHttpServer())
+        .get(`/users`)
+        .expect(401)
+        .set('Authorization', `Bearer ${accessToken + 'fake'}`);
+      expect(res.body).toStrictEqual({
+        statusCode: 401,
+        error: 'Unauthorized',
+        message: 'Invalid token',
+      });
+    });
+
+    it('should return the users ordered by name', async () => {
       const entities: UserEntity[] = [];
       const arrange = ['test', 'a', 'TEST', 'TeSt', 'b'];
       arrange.forEach((element, index) =>
@@ -104,6 +145,7 @@ describe('UsersController search method end-to-end tests', () => {
 
       let res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
 
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
@@ -131,6 +173,7 @@ describe('UsersController search method end-to-end tests', () => {
 
       res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
 
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
@@ -150,6 +193,7 @@ describe('UsersController search method end-to-end tests', () => {
     it('should return a error with 422 code when the query params is invalid', async () => {
       const res = await request(app.getHttpServer())
         .get(`/users/?fakeId=10`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(422);
       expect(res.body.error).toBe('Unprocessable Entity');
       expect(res.body.message).toEqual(['property fakeId should not exist']);
