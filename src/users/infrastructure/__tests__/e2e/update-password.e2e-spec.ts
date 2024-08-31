@@ -75,7 +75,7 @@ describe('UsersController updatePassword method end-to-end tests', () => {
       expect(checkNewPassword).toBeTruthy();
     });
 
-    it('should throw a unauthorized error when the token is not provided', async () => {
+    it('should throw a unauthorized error with code 401 when the token is not provided', async () => {
       const res = await request(app.getHttpServer())
         .patch(`/users/${entity._id}`)
         .send(updatePasswordDto);
@@ -92,7 +92,7 @@ describe('UsersController updatePassword method end-to-end tests', () => {
       });
     });
 
-    it('should throw a unauthorized error when the token is invalid', async () => {
+    it('should throw a unauthorized error with code 401 when the token is invalid', async () => {
       const res = await request(app.getHttpServer())
         .patch(`/users/${entity._id}`)
         .send(updatePasswordDto)
