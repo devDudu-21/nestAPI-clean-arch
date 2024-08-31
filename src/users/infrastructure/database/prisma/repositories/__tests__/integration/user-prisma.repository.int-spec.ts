@@ -12,8 +12,8 @@ import { ConflictError } from '@/shared/domain/errors/conflict-error';
 describe('UserPrismaRepository integration tests', () => {
   const prismaService = new PrismaClient();
   let sut: UserPrismaRepository;
+  /* eslint-disable-next-line */
   let module: TestingModule;
-
   beforeAll(async () => {
     setupPrismaTests();
     module = await Test.createTestingModule({

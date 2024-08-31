@@ -3,7 +3,6 @@ import { UserRepository } from '@/users/domain/repositories/user.repository';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
 import { UserOutput, UserOutputMapper } from '../dto/user-output';
 import { UseCase as DefaultUseCase } from '@/shared/application/usecases/use-case';
-import { InvalidCredentialsError } from '@/shared/application/errors/invalid-credentials-error';
 import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';

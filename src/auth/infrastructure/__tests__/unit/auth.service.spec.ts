@@ -7,6 +7,7 @@ import { EnvConfigModule } from '@/shared/infrastructure/env-config/env-config.m
 
 describe('AuthService unit tests', () => {
   let sut: AuthService;
+  /* eslint-disable-next-line */
   let module: TestingModule;
   let jwtService: JwtService;
   let envConfigService: EnvConfigService;

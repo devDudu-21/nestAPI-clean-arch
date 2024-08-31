@@ -7,8 +7,6 @@ import { EnvConfigModule } from '@/shared/infrastructure/env-config/env-config.m
 import { UsersModule } from '../../users.module';
 import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
 import request from 'supertest';
-import { UsersController } from '../../users.controller';
-import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
