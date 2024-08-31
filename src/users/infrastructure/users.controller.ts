@@ -71,7 +71,20 @@ export class UsersController {
   static listUsersToResponse(output: ListUsersUseCase.Output) {
     return new UserCollectionPresenter(output);
   }
-
+  @ApiResponse({
+    status: 201,
+    description: 'Usuário criado com sucesso',
+    schema: {
+      type: 'object',
+      properties: {
+        data: {
+          $ref: getSchemaPath(UserPresenter),
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 409, description: 'Conflito de e-mail' })
+  @ApiResponse({ status: 422, description: 'Corpo da requisição inválido' })
   @Post()
   async create(@Body() singupDto: SignupDto) {
     const output = await this.signupUseCase.execute(singupDto);
