@@ -71,6 +71,7 @@ export class UsersController {
   static listUsersToResponse(output: ListUsersUseCase.Output) {
     return new UserCollectionPresenter(output);
   }
+
   @ApiResponse({
     status: 201,
     description: 'Usuário criado com sucesso',
@@ -91,6 +92,20 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário autenticado com sucesso',
+    schema: {
+      type: 'object',
+      properties: {
+        accessToken: {
+          type: 'string',
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @ApiResponse({ status: 422, description: 'Corpo da requisição inválido' })
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(@Body() signinDto: SigninDto) {
@@ -132,6 +147,9 @@ export class UsersController {
     return UsersController.listUsersToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({ status: 404, description: 'Id não encontrado' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
@@ -139,6 +157,10 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({ status: 422, description: 'Parâmetros de consulta inválidos' })
+  @ApiResponse({ status: 404, description: 'Id não encontrado' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   @UseGuards(AuthGuard)
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -149,6 +171,10 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @ApiResponse({ status: 404, description: 'Id não encontrado' })
+  @ApiResponse({ status: 422, description: 'Parâmetros de consulta inválidos' })
   @UseGuards(AuthGuard)
   @Patch(':id')
   async updatePassword(
@@ -162,6 +188,10 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({ status: 204, description: 'Usuário removido com sucesso' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @ApiResponse({ status: 404, description: 'Id não encontrado' })
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
