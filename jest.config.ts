@@ -6,13 +6,14 @@ export default {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),
-  testRegex: '.*\\.spec\\.ts$',
+  testRegex: '.*\\.(spec|int-spec|e2e-spec)\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-
-  collectCoverageFrom: ['**/*.(t|j)s'],
-  coverageDirectory: '../coverage',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['/node_modules/', '/dist/', '/build/'],
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+
+  coverageDirectory: '../coverage',
+  collectCoverageFrom: ['src/**/*.{js,ts}', '!src/**/*.d.ts'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
 };
