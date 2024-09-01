@@ -2,7 +2,7 @@ import { UserRepository } from '@/users/domain/repositories/user.repository';
 import { UserOutput, UserOutputMapper } from '../dto/user-output';
 import { UseCase as DefaultUseCase } from '@/shared/application/usecases/use-case';
 import { HashProvider } from '@/shared/application/providers/hash-provider';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 
 export namespace UpdatePasswordUseCase {
   export type Input = {

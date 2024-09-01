@@ -1,6 +1,6 @@
 import { ArgumentsHost } from '@nestjs/common';
 import { UnauthorizedErrorFilter } from '../../unauthorized-error.filter';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 
 describe('UnauthorizedErrorFilter unit tests', () => {
   it('should be defined', () => {

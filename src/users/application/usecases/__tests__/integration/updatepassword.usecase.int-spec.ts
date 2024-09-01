@@ -9,7 +9,7 @@ import { UpdatePasswordUseCase } from '../../updatepassword.usecase';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 
 describe('UpdatePasswordUseCase integration tests', () => {
   const prismaService = new PrismaClient();

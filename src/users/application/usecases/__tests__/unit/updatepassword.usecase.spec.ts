@@ -5,7 +5,7 @@ import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builde
 import { UpdatePasswordUseCase } from '../../updatepassword.usecase';
 import { HashProvider } from '@/shared/application/providers/hash-provider';
 import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-provider/bcryptjs-hash.provider';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 
 describe('UpdatePasswordUseCase', () => {
   let sut: UpdatePasswordUseCase.UseCase;

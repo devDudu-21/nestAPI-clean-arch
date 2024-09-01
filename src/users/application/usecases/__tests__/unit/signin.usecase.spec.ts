@@ -5,7 +5,7 @@ import { BcryptjsHashProvider } from '@/users/infrastructure/providers/hash-prov
 import { UserDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { BadRequestError } from '@/shared/application/errors/bad-request-error';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 
 describe('SigninUseCase unit tests', () => {
   let sut: SigninUseCase.UseCase;

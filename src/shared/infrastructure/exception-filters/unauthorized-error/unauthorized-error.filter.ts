@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify';
-import { UnauthorizedError } from '@/shared/application/errors/invalid-password-error';
+import { UnauthorizedError } from '@/shared/application/errors/unauthorized-error';
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 
 @Catch(UnauthorizedError)
