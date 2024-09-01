@@ -52,7 +52,7 @@ $ npm run test:int
 # e2e tests
 $ npm run test:e2e
 
-# test coverage - not implemented yet
+# test coverage
 $ npm run test:cov
 ```
 
