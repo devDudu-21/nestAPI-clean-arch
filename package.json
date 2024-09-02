@@ -23,7 +23,7 @@
     "test:watch": "npx dotenv-cli -e .env.test -- jest --watch",
     "test:cov": "npx dotenv-cli -e .env.test -- jest --runInBand --coverage --config ./jest.config.ts",
     "test:debug": "npx dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "migrate": "npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema ./src/shared/infrastructure/database/prisma/schema.prisma"
+    "migrate:dev": "npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema ./src/shared/infrastructure/database/prisma/schema.prisma"
   },
   "dependencies": {
     "@fastify/static": "^7.0.4",
