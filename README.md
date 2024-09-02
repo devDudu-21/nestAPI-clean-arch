@@ -28,14 +28,16 @@ Install the dependencies
 
 ## Running
 
-```bash
-# migration
-npm run migrate
-```
-``` bash
-# development
-$ npm run start:dev
+with env development
 
+``` bash
+# migration
+$ npm run migrate
+# dev mode
+$ npm run start:dev
+```
+```bash
+$ npm run build
 # production mode
 $ npm run start:prod
 ```
