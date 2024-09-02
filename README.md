@@ -31,8 +31,8 @@ Install the dependencies
 with env development
 
 ``` bash
-# migration
-$ npm run migrate
+# prisma generate
+$ npm run generate:prisma
 # dev mode
 $ npm run start:dev
 ```
