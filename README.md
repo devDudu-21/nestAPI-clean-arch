@@ -36,6 +36,8 @@ $ npm run migrate
 # dev mode
 $ npm run start:dev
 ```
+
+with production mode
 ```bash
 $ npm run build
 # production mode
