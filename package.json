@@ -9,7 +9,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npx prisma generate && nest build",
+    "build": "npx prisma generate --schema src/shared/infrastructure/database/prisma/schema.prisma && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "npx dotenv-cli -e .env.development -- nest start --watch",
