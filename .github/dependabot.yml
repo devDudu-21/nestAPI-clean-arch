@@ -1,0 +1,21 @@
+# Versão do arquivo de configuração do Dependabot
+version: 2
+
+# Configurações de updates
+updates:
+  # Para Node.js (npm)
+  - package-ecosystem: "npm"
+    # Diretório onde está o arquivo package.json
+    directory: "/"
+    # Intervalo de checagem para novas atualizações
+    schedule:
+      interval: "weekly"
+    # Checar atualizações para versões pré-lançamento (opcional)
+    allow:
+      - dependency-type: "all"  # `all` ou `production`
+
+  # Caso você esteja usando o Yarn ao invés do npm, use o seguinte:
+  # - package-ecosystem: "yarn"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
