@@ -1,0 +1,23 @@
+name: Auto Merge Dependabot PRs
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' # Verifica se a PR é do Dependabot
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run Tests
+        run: npm test # Troque para o comando de teste específico do seu projeto
+
+      - name: Enable Auto-Merge
+        if: success() # Somente continua se os testes foram bem-sucedidos
+        uses: peter-evans/enable-pull-request-automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: squash # ou "merge" ou "rebase" se preferir outro método
