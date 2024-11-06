@@ -7,17 +7,40 @@ on:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' # Verifica se a PR é do Dependabot
+    if: github.actor == 'dependabot[bot]' # Executa apenas para PRs do Dependabot
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Run Tests
-        run: npm test # Troque para o comando de teste específico do seu projeto
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Integration Tests
+        run: npm run test:int
+        env:
+          APP_PORT: 3000
+          NODE_ENV: test
+          JWT_SECRET: fake_secret
+          JWT_EXPIRES_IN: 86400
+          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
+
+      - name: Run E2E Tests
+        run: npm run test:e2e
+        env:
+          APP_PORT: 3000
+          NODE_ENV: test
+          JWT_SECRET: fake_secret
+          JWT_EXPIRES_IN: 86400
+          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
 
       - name: Enable Auto-Merge
-        if: success() # Somente continua se os testes foram bem-sucedidos
+        if: success() # Continua apenas se os testes foram bem-sucedidos
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash # ou "merge" ou "rebase" se preferir outro método
+          merge-method: squash # ou outro método como "merge" ou "rebase" se preferir
