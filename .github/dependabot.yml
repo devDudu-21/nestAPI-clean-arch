@@ -1,48 +1,41 @@
 version: 2
 updates:
-  # Enable version updates for npm
+  # Atualizações para npm
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
     directory: "/"
-    # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "daily"
-    # Limita o número de PRs abertos por atualizações de dependências
     open-pull-requests-limit: 5
-    # Executa atualizações automáticas de segurança
     commit-message:
-      include: "security"
-    # Ignora updates de major version
+      prefix: "deps"
+      include: "scope"
+    # Atualizações de segurança separadas
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
     ignore:
       - dependency-type: "all"
         update-types: ["version-update:semver-major"]
 
-  # Enable version updates for Docker
+  # Atualizações para Docker
   - package-ecosystem: "docker"
-    # Look for a `Dockerfile` in the `root` directory
     directory: "/"
-    # Check for updates once a week
     schedule:
       interval: "weekly"
-    # Limita o número de PRs abertos
     open-pull-requests-limit: 3
-    # Executa atualizações automáticas de segurança
     commit-message:
-      include: "security"
-    # Ignora updates de major version
+      prefix: "docker"
+      include: "scope"
     ignore:
       - dependency-type: "all"
         update-types: ["version-update:semver-major"]
 
-  # Enable version updates for GitHub Actions workflows
+  # Atualizações para GitHub Actions
   - package-ecosystem: "github-actions"
-    # Localização do arquivo de workflow (geralmente na pasta .github/workflows)
     directory: "/.github/workflows"
-    # Checa atualizações semanalmente
     schedule:
       interval: "weekly"
-    # Limita o número de PRs abertos
     open-pull-requests-limit: 2
-    # Executa atualizações automáticas de segurança
     commit-message:
-      include: "security"
+      prefix: "actions"
+      include: "scope"
