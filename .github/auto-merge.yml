@@ -1,3 +1,4 @@
+// auto-merge.yml
 name: Auto Merge Dependabot PRs
 
 on:
