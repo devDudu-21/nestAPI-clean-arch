@@ -3,44 +3,56 @@ name: CI - Integration and E2E Tests
 on: [pull_request]
 
 jobs:
-  run-unit-tests:
+  run-int-e2e-tests:
     name: Run Integration and E2E Tests
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: bitnami/postgresql
+        image: postgres:13
         ports:
           - 5432:5432
         env:
-          POSTGRESQL_USERNEME: postgres
-          POSTGRESQL_PASSWORD: docker
-          POSTGRESQL_DATABASE: projectdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: projectdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      APP_PORT: 3000
+      NODE_ENV: test
+      JWT_SECRET: fake_secret
+      JWT_EXPIRES_IN: 86400
+      DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
 
     steps:
-      - uses: actions/checkout@v4 # Check out the repository
-      - uses: actions/setup-node@v4 # Set up Node.js environment
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-      - run: npm ci # Install dependencies
 
-      - run: npx prisma generate --schema ./src/shared/infrastructure/database/prisma/schema.prisma
-        env:
-          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
+      - name: Install Dependencies
+        run: npm ci
 
-      - run: npm run test:int
+      - name: Generate Prisma Client
+        run: npx prisma generate --schema ./src/shared/infrastructure/database/prisma/schema.prisma
         env:
-          APP_PORT: 3000
-          NODE_ENV: test
-          JWT_SECRET: fake_secret
-          JWT_EXPIRES_IN: 86400
-          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
+          DATABASE_URL: ${{ env.DATABASE_URL }}
 
-      - run: npm run test:e2e
+      - name: Run Integration Tests
+        run: npm run test:int
         env:
-          APP_PORT: 3000
-          NODE_ENV: test
-          JWT_SECRET: fake_secret
-          JWT_EXPIRES_IN: 86400
-          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
+      - name: Run E2E Tests
+        run: npm run test:e2e
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
