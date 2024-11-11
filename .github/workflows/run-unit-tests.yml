@@ -1,4 +1,4 @@
-# run-unit-test.yml
+# .github/workflows/run-unit-test.yml
 
 name: CI - Unit Tests
 
@@ -21,7 +21,7 @@ jobs:
       NODE_ENV: test
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       JWT_EXPIRES_IN: 86400
-      APP_PORT: 3000 # Adicione esta linha se APP_PORT for necessário
+      APP_PORT: 3000
 
     steps:
       - name: Checkout Repository
@@ -50,4 +50,4 @@ jobs:
           NODE_ENV: test
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_EXPIRES_IN: 86400
-          # Remova ou adicione variáveis conforme necessário
+          APP_PORT: 3000
