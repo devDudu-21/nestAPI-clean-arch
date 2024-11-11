@@ -9,7 +9,6 @@ updates:
     commit-message:
       prefix: "deps"
       include: "scope"
-    # Atualizações de segurança separadas
     allow:
       - dependency-type: "direct"
       - dependency-type: "indirect"
@@ -39,3 +38,6 @@ updates:
     commit-message:
       prefix: "actions"
       include: "scope"
+    ignore:
+      - dependency-type: "all"
+        update-types: ["version-update:semver-major"]
