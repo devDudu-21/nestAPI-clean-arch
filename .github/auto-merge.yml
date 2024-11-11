@@ -1,17 +1,42 @@
-// auto-merge.yml
 name: Auto Merge Dependabot PRs
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' # Executa apenas para PRs do Dependabot
+    if: github.actor == 'dependabot[bot]'
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: projectdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -39,9 +64,18 @@ jobs:
           JWT_EXPIRES_IN: 86400
           DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
 
+      - name: Add "automerge" Label
+        if: success()
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            automerge
+
       - name: Enable Auto-Merge
-        if: success() # Continua apenas se os testes foram bem-sucedidos
+        if: success()
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash # ou outro método como "merge" ou "rebase" se preferir
+          merge-method: squash
+
