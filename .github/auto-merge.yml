@@ -12,27 +12,6 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
-    services:
-      postgres:
-        image: postgres:13
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: docker
-          POSTGRES_DB: projectdb
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    env:
-      APP_PORT: 3000
-      NODE_ENV: test
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      JWT_EXPIRES_IN: 86400
-      DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -56,15 +35,23 @@ jobs:
       - name: Run Integration Tests
         run: npm run test:int
         env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+          APP_PORT: 3000
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: 86400
+          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
 
       - name: Run E2E Tests
         run: npm run test:e2e
         env:
-          DATABASE_URL: ${{ env.DATABASE_URL }}
+          APP_PORT: 3000
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: 86400
+          DATABASE_URL: 'postgresql://postgres:docker@localhost:5432/projectdb?schema=public'
 
       - name: Enable Auto-Merge
-        if: success()
+        if: success() && contains(github.event.pull_request.labels.*.name, 'automerge')
         uses: peter-evans/enable-pull-request-automerge@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
