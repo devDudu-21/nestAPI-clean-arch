@@ -1,3 +1,5 @@
+# run-unit-test.yml
+
 name: CI - Unit Tests
 
 on:
@@ -19,6 +21,7 @@ jobs:
       NODE_ENV: test
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       JWT_EXPIRES_IN: 86400
+      APP_PORT: 3000 # Adicione esta linha se APP_PORT for necessário
 
     steps:
       - name: Checkout Repository
@@ -43,3 +46,8 @@ jobs:
 
       - name: Run Unit Tests
         run: npm run test:unit
+        env:
+          NODE_ENV: test
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: 86400
+          # Remova ou adicione variáveis conforme necessário
